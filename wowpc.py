@@ -50,6 +50,7 @@ def tuj_search(region, realm, item):
         'house': house,
         'search': item
     }
+    print(params)
     r = requests.get('https://theunderminejournal.com/api/search.php', params=params)
     items = r.json()['items']
     if items is None:
@@ -77,10 +78,13 @@ async def on_message(message):
         args = message.content.split()
         if len(args) < 4:
             return
-        region, realm, item = args[1:4]
+        region = args[1]
+        realm = args[2]
+        item = ' '.join(args[3:])
         try: 
             stats = tuj_search(region, realm, item)
         except Exception as e:
+            print(e)
             await client.send_message(message.channel, str(e))
             return
         stat_msg = '{0} {1} - Price: {2}, Average Price: {3}, Quantity: {4} {5}'.format(
