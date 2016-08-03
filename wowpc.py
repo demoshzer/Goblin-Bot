@@ -35,18 +35,16 @@ def match_realm(region, name):
 
 def tuj_search(region, realm, item):
     if region not in ['us', 'eu']:
-        raise Exception('Invalid region. Must be "us" or "eu')
+        raise Exception('Invalid region. Must be "us" or "eu"')
     realm = match_realm(region, realm)
     if realm is None:
-        raise Exception('Realm not found')
+        raise Exception('Realm not found, did you spell it correctly?')
     if region == 'us':
         locale = us_realms[realm]['locale']
         house = us_realms[realm]['house']
-    elif region == 'eu':
+    else
         locale = eu_realms[realm]['locale']
         house = eu_realms[realm]['house']
-    else:
-        raise Exception('Invalid region. Regions are "us", "eu"')
     params = {
         'locale': locale,
         'house': house,
@@ -55,7 +53,7 @@ def tuj_search(region, realm, item):
     r = requests.get('https://theunderminejournal.com/api/search.php', params=params)
     items = r.json()['items']
     if items is None:
-        raise Exception('Item not found')
+        raise Exception('Item not found, did you spell it correctly?')
     stats = items[0]
     stats['realm'] = realm
     stats['price'] = "%.2fg" % (stats['price']/10000)
