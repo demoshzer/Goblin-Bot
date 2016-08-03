@@ -42,7 +42,7 @@ def tuj_search(region, realm, item):
     if region == 'us':
         locale = us_realms[realm]['locale']
         house = us_realms[realm]['house']
-    else
+    else:
         locale = eu_realms[realm]['locale']
         house = eu_realms[realm]['house']
     params = {
