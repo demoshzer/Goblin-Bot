@@ -30,7 +30,7 @@ def match_realm(region, name):
         realms = us_realms
     else:
         realms = eu_realms
-    return next( (realm for realm in realms if realm.startswith(name.capitalize())), None)
+    return next( (realm for realm in realms if realm.lower().startswith(name.lower())), None)
 
 
 def tuj_search(region, realm, item):
