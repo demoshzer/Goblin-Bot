@@ -2,6 +2,7 @@
 
 import os
 import sys
+import traceback
 import statistics
 import requests
 import asyncio
@@ -67,8 +68,10 @@ def tuj_search(region, realm, item):
     r = requests.get('https://theunderminejournal.com/api/search.php', params=params)
 
     items = r.json()['items']
-    if items is None:
+    if not items is None:
         raise Exception('Item not found, did you spell it correctly?')
+    elif not items:
+        raise Exception('No auctions found for {}'.format(item))
 
     stats = items[0]
     buyouts = tuj_item(house, stats['id'])
@@ -93,6 +96,7 @@ async def on_ready():
 @client.event
 async def on_message(message):
     if message.content.startswith('!pc'):
+        print('command recieved')
         args = message.content.split()
         if len(args) < 4:
             return
